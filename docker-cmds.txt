@@ -1,0 +1,7 @@
+Some usefull docker commands:
+(just for reference purposes)
+
+run mysql server
+docker run --name my-mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD='1' -e MYSQL_ROOT_HOST='172.17.0.1' -d mysql/mysql-server
+
+
