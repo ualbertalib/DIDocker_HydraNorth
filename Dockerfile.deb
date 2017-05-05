@@ -1,4 +1,5 @@
-FROM ualibraries/ruby_plus2.3.3:latest
+FROM ualibraries/rubyhydra:latest
+MAINTAINER Alex Strilets <strilets@ualberta.ca>
 
 # update and install required software
 RUN echo 'deb http://ftp.uk.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
@@ -22,13 +23,14 @@ RUN set -ex \
 	&& apt-get update \
 	&& apt-get install -y $buildPkgs
 
-# install FITS
-RUN mkdir -p /usr/local/fits \
-    && cd /usr/local/fits \
-    && wget http://projects.iq.harvard.edu/files/fits/files/fits-1.0.5.zip \
-    && unzip fits-1.0.5.zip \
-    && rm  fits-1.0.5.zip \
-    && ln -s /usr/local/fits/fits-1.0.5/fits.sh /usr/bin/fits
+#install phantomjs
+RUN cd / \
+    && export PHANTOM_JS="phantomjs-1.9.8-linux-x86_64" \
+    && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 \
+    && tar xvjf $PHANTOM_JS.tar.bz2 \
+    && mv $PHANTOM_JS /usr/local/share \
+    && rm $PHANTOM_JS.tar.bz2  \
+    && ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
 
 #update clamav DB
 RUN /usr/bin/freshclam
@@ -44,8 +46,6 @@ RUN chmod 644 /etc/mysql/my.cnf
 RUN wget https://raw.github.com/ualbertalib/HydraNorth/master/Gemfile -P /tmp \
     && wget https://raw.github.com/ualbertalib/HydraNorth/master/Gemfile.lock -P /tmp \
     && cd /tmp \
-    && cat Gemfile | egrep "^( )*gem|^source" > Gemfile.tmp \
-    && echo "gem 'sqlite3'" >> Gemfile.tmp \
     && mv Gemfile.tmp Gemfile \
     && bundle install
 

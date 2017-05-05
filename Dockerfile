@@ -5,8 +5,28 @@ MAINTAINER Alex Strilets <strilets@ualberta.ca>
 RUN yum -y update
 
 #install required packages
-RUN yum install -y mysql-server mysql MySQL-python mysql-devel clamav clamav-devel
+RUN yum install -y redis resque nodejs jdk1.8.0 libreoffice ImageMagick-devel \
+    ffmpeg GraphicsMagick poppler-utils libreoffice-headless MySQL-python \
+    mysql-server mysql mysql-devel clamav clamav-devel
 RUN yum -y groupinstall 'Development Tools'
+
+#install FITS
+RUN mkdir -p /usr/local/fits \
+    && cd /usr/local/fits \
+    && wget http://projects.iq.harvard.edu/files/fits/files/fits-1.0.6.zip \
+    && unzip fits-1.0.6.zip \
+    && rm  fits-1.0.6.zip \
+    && chmod a+x /usr/local/fits/fits-1.0.6/fits.sh \
+    && ln -s /usr/local/fits/fits-1.0.6/fits.sh /usr/bin/fits
+
+#install phantomjs
+RUN cd / \
+    && export PHANTOM_JS="phantomjs-1.9.8-linux-x86_64" \
+    && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 \
+    && tar xvjf $PHANTOM_JS.tar.bz2 \
+    && mv $PHANTOM_JS /usr/local/share \
+    && rm $PHANTOM_JS.tar.bz2  \
+    && ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
 
 #update clamav DB
 RUN /usr/bin/freshclam
