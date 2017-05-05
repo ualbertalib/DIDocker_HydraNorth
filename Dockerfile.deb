@@ -2,8 +2,6 @@ FROM ualibraries/rubyhydra:latest
 MAINTAINER Alex Strilets <strilets@ualberta.ca>
 
 # update and install required software
-RUN echo 'deb http://ftp.uk.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
-
 RUN set -ex \
 	\
 	&& buildPkgs=' \
@@ -17,8 +15,6 @@ RUN set -ex \
 		libreoffice-common \
 		imagemagick \
 		graphicsmagick \
-		ffmpeg \
-		openjdk-7-jre \
 	' \
 	&& apt-get update \
 	&& apt-get install -y $buildPkgs
