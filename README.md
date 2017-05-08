@@ -1,9 +1,13 @@
 # How to get started using HydraNorth docker image
 
-This is project to get [HydraNorth](https://github.com/ualbertalib/HydraNorth) running in docker environment
-There are two docker files here Dockerfile.hydranorth.centos and Dockerfile.hydranorth.deb first one is to
+This is project to get [HydraNorth](https://github.com/ualbertalib/HydraNorth) running in docker environment.
+There are two docker files here Dockerfile.hydranorth.centos and Dockerfile.hydranorth.deb. First one is to
 build docker image based on centos 6.9 using our local ualib reposotories and second one is to build
 hydranorth based on official ruby debian image.
+Centos docker image is designed to make environment identical to our produciton version of HydraNorth. It contains
+our own compiled version of ffmpeg with all required codecs.
+Debian based docker image is derived from official ruby image (debian based) and suitable for those who do not have
+access to ualib repositories.
 
 ## Prerequisites:
 
@@ -12,20 +16,23 @@ hydranorth based on official ruby debian image.
      ```shell
      git clone https://github.com/ualbertalib/di_docker_hydranorth.git
      ```
-  3. Optional: build your own docker image
-     (if you choose to skip this step you can always pull pre build
-     images from [dockerhub](https://hub.docker.com/), see next step)
-     ```shell
-     docker build -f Dockerfile.hydra_centos -t hydra_north:centos
-     or
-     docker build -f Dockerfile.hydra_deb -t hydra_north:deb
-     ```
-  4. Pull all necessary images
-     ```shell
-     docker pull ualibraries/hydra_north:centos
-     or
-     docker pull ualibraries/hydra_north:deb
-     ```
+  3. Build your own docker image or download existing one
+
+     * build your own docker image
+       (if you choose to skip this step you can always pull pre build
+       images from [dockerhub](https://hub.docker.com/), see next step)
+       ```shell
+       docker build -f Dockerfile.hydra_centos . -t hydra_north:centos
+       or
+       docker build -f Dockerfile.hydra_deb . -t hydra_north:deb
+       ```
+     * download docker image from dockerhub
+       Pull [image from dockerhub repository](https://hub.docker.com/r/ualibraries/hydra_north/)
+       ```shell
+       docker pull ualibraries/hydra_north:centos
+       or
+       docker pull ualibraries/hydra_north:deb
+       ```
 
 ##  Running HydraNorth
 
@@ -43,9 +50,8 @@ hydranorth based on official ruby debian image.
   export LOCAL_SRC_PATH='/home/myname/src/HydraNorth'
   ```
 
-  EZID_PASSWORD should contain ezid testing password
-  IMG_TAG should be set to either 'centos' or 'deb' depending on image you are using.
-
+  EZID_PASSWORD should contain ezid testing password.<br />
+  IMG_TAG should be set to either 'centos' or 'deb' depending on image you are using.<br />
   Now you are done, just run shell script from di_docker_hydranorth
 
   ```shell
