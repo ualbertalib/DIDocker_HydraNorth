@@ -42,11 +42,10 @@ RUN chmod 644 /etc/mysql/my.cnf
 RUN wget https://raw.github.com/ualbertalib/HydraNorth/master/Gemfile -P /tmp \
     && wget https://raw.github.com/ualbertalib/HydraNorth/master/Gemfile.lock -P /tmp \
     && cd /tmp \
-    && mv Gemfile.tmp Gemfile \
     && bundle install
 
 #copy scripts into /usr/local/bin
-ADD files/start_mysql.sh /usr/local/bin/start.sh
+ADD files/start.sh /usr/local/bin/start.sh
 RUN chmod 755 /usr/local/bin/start.sh
 
 ADD files/switch2mysql.rb /usr/local/bin/switch2mysql.rb
