@@ -58,7 +58,7 @@ access to ualib repositories.
   $ ./runDockerImage.sh
   ```
 
-  Wait for about 30 seconds and point your browser to [localhost port 300](http://localhost:3000) and you
+  Wait for about 30 seconds and point your browser to [localhost port 3000](http://localhost:3000) and you
   should see instance of HydraNorth running. You can also see Solr and Fedora running if you point your
   browser to  [localhost port 8983](http://localhost:8983)
 
