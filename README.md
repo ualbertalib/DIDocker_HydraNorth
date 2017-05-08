@@ -1,67 +1,72 @@
-How to get started
-using HydraNorth docker image with sqlite3 or mysql database
+# How to get started using HydraNorth docker image
 
-Make sure that you have docker installed and running on you workstation
-check that it is running by trying to run hello-world immage
+This is project to get [HydraNorth](https://github.com/ualbertalib/HydraNorth) running in docker environment
+There are two docker files here Dockerfile.hydranorth.centos and Dockerfile.hydranorth.deb first one is to
+build docker image based on centos 6.9 using our local ualib reposotories and second one is to build
+hydranorth based on official ruby debian image.
 
-$docker run hello-world
+## Prerequisites:
 
-Pull latest image of hydra_north
+  1. [Install Docker](https://docs.docker.com/engine/installation/)
+  2. Clone current project:
+     ```shell
+     git clone https://github.com/ualbertalib/di_docker_hydranorth.git
+     ```
+  3. Optional: build your own docker image
+     (if you choose to skip this step you can always pull pre build
+     images from [dockerhub](https://hub.docker.com/), see next step)
+     ```shell
+     docker build -f Dockerfile.hydra_centos -t hydra_north:centos
+     or
+     docker build -f Dockerfile.hydra_deb -t hydra_north:deb
+     ```
+  4. Pull all necessary images
+     ```shell
+     docker pull ualibraries/hydra_north:centos
+     or
+     docker pull ualibraries/hydra_north:deb
+     ```
 
-$docker pull ualibraries/hydra_north_sqlite or
-$docker pull ualibraries/hydra_north_mysql
+##  Running HydraNorth
 
-Clone HydraNorth code repository from github
+  Clone HydraNorth code repository from github
 
-$git clone https://github.com/ualbertalib/HydraNorth.git
-go to the directory where you cloned your HydraNorth and edit Gemfile
-make sure that following line is in the development section:
+  ```shell
+  $git clone https://github.com/ualbertalib/HydraNorth.git
+  ```
 
-gem 'sqlite3'
-if you plan to use ualibraries/hydra_north_sqlite image
+  Set some environment variables:
 
-/*this will not be necessary once I committed my changes to the HydraNorth repository */
+  LOCAL_SRC_PATH should point to the directory where you cloned your HydraNorth github repository
 
-Clone DIDockerImages from github
+  ```shell
+  export LOCAL_SRC_PATH='/home/myname/src/HydraNorth'
+  ```
 
-$git clone https://github.com/ualbertalib/DIDockerImages.git
+  EZID_PASSWORD should contain ezid testing password
+  IMG_TAG should be set to either 'centos' or 'deb' depending on image you are using.
 
+  Now you are done, just run shell script from di_docker_hydranorth
 
-Set some environment variables:
+  ```shell
+  $ ./runDockerImage.sh
+  ```
 
-LOCAL_SRC_PATH should point to the directory where you cloned your HydraNorth github repository
+  Wait for about 30 seconds and point your browser to [localhost port 300](http://localhost:3000) and you
+  should see instance of HydraNorth running. You can also see Solr and Fedora running if you point your
+  browser to  [localhost port 8983](http://localhost:8983)
 
-$export LOCAL_SRC_PATH='/home/myname/src/HydraNorth'
+  In order to deposit an item, you must first create a community via the dashboard.
 
-EZID_PASSWORD should contain ezid testing password
-
-Now you are done, just run shell script from DIDockerImages/HydraNorth runDockerImage_sqlite.sh
-or runDockerImage_mysql.sh scripts:
-
-$cd /home/myname/src/DIDockerImages/HydraNorth
-$ ./runDockerImage_sqlite.sh
-or
-$ ./runDockerImage_mysql.sh
-
-Wait for about 30 seconds and point your browser to http://localhost:3000 and you shoud see instancd of HydraNorth running.
-You can also see Solr and Fedora running if you point your browser to http://localhost:8983
-
-In order to deposit an item, you must first create a community via the dashboard.
-
-You can access Fedora at http://localhost:8983/fedora , and solr at http://localhost:8983/solr . The Resque gui 
-is at http://localhost:3000/admin/queues/overview
+  The Resque gui can be access  via [this link](http://localhost:3000/admin/queues/overview)
 
 
 
 
-To stop running docker image:
+## Useful commands:
 
-$docker ps
+ * `docker ps -`                                 to see all running containers
+ * `docker logs -f <container_name>`             to see logs from a given container
+ * `docker exec -it <container_name> /bin/bash`  to start shell inside running container
+ * `docker stop <containter_id>`                 to stop running container
 
-you will see list of all running containers, find HydraNorth container id and issue command
-
-$docker stop <containter_id>
-
-To go inside container and execute command there
-
-$docker exec -it <container_id> /bin/bash
