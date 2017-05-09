@@ -35,7 +35,7 @@ RUN /usr/bin/freshclam
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -q -y install mysql-server
 
-ADD files/my.cnf /etc/mysql/my.cnf
+ADD files/my.cnf.deb /etc/mysql/my.cnf
 RUN chmod 644 /etc/mysql/my.cnf
 
 #get Getmfile and install all erequired gems
@@ -45,7 +45,7 @@ RUN wget https://raw.github.com/ualbertalib/HydraNorth/master/Gemfile -P /tmp \
     && bundle install
 
 #copy scripts into /usr/local/bin
-ADD files/start.sh /usr/local/bin/start.sh
+ADD files/start.sh.deb /usr/local/bin/start.sh
 RUN chmod 755 /usr/local/bin/start.sh
 
 ADD files/switch2mysql.rb /usr/local/bin/switch2mysql.rb
