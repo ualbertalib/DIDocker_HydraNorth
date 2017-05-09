@@ -13,8 +13,9 @@ rm -rf /app/tmp/*
 /etc/init.d/mysqld start
 
 #create hydranorthdev database
-echo "Creating database hydranorthdev"
+echo "Creating database hydranorthdev and hydranorthtest"
 mysql -u root -e "Create database hydranorthdev;"
+mysql -u root -e "Create database hydranorthtest;"
 
 #change to the app directory
 cd /app
