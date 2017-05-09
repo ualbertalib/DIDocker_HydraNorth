@@ -53,7 +53,7 @@ access to ualib repositories.
   EZID_PASSWORD should contain ezid testing password.<br />
   IMAGE should be set to either centos or deb image  depending on image you are using.<br />
   For example: `EXPORT IMAGE=ualibraries/hydra_north:deb` If you build your own version of docker image then you
-  should replace `ualibraries/hydra_north:deb` with the name that you give to that image.`:w`<br />
+  should replace `ualibraries/hydra_north:deb` with the name that you give to that image.<br />
 
   Now you are done, just run shell script from di_docker_hydranorth
 
